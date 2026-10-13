@@ -1,0 +1,29 @@
+name: CPU verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  cpu:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '2'
+      SDL_VIDEODRIVER: dummy
+      SDL_AUDIODRIVER: dummy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.10'
+      - run: uv venv
+      - run: uv pip install torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cpu
+      - run: uv pip install --excludes requirements-exclude.txt -e '.[test]'
+      - run: .venv/bin/python -m pytest -q
+      - run: uv build --python .venv/bin/python --wheel
+      - run: |
+          uv pip install --no-deps --reinstall dist/*.whl
+          cd /tmp
+          "$GITHUB_WORKSPACE/.venv/bin/pfm-pusht-train" --help
+          "$GITHUB_WORKSPACE/.venv/bin/pfm-pusht-evaluate" --help
