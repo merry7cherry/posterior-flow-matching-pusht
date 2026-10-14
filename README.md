@@ -1,3 +1,20 @@
+# Moved to the PFM monorepo
+
+The maintained **PushT** implementation is now in
+[`posterior-flow-matching/pusht/`](https://github.com/merry7cherry/posterior-flow-matching/tree/main/pusht).
+
+PFM now uses one repository with four parallel directories: `images/`,
+`pointcloud/`, `molecules/`, and `pusht/`. Follow the task README in the main
+repository for installation, training, ODE/SDE sampling, evaluation and diagnostics.
+
+This repository is archived for its release history. Its code and instructions
+below describe the previous standalone release.
+
+[All PFM code](https://github.com/merry7cherry/posterior-flow-matching#code) ·
+[Project page](https://merry7cherry.github.io/posterior-flow-matching/)
+
+---
+
 # Posterior Flow Matching — PushT
 
 Native image-conditioned PushT implementation of Posterior Flow Matching (PFM).
